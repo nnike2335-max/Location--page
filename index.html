@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Location</title>
+<style>
+body{font-family:Arial,sans-serif;text-align:center;padding:40px 20px}
+button{font-size:18px;padding:14px 22px;border:0;border-radius:10px}
+#status{margin-top:20px;line-height:1.6}
+</style>
+</head>
+<body>
+<h2>📍 Location</h2>
+<p>Press the button and allow location access.</p>
+<button id="btn">Share Location</button>
+<div id="status"></div>
+<script>
+const status=document.getElementById('status');
+document.getElementById('btn').addEventListener('click',()=>{
+  if(!navigator.geolocation){
+    status.textContent='This browser does not support location.';
+    return;
+  }
+  status.textContent='Getting your location...';
+  navigator.geolocation.getCurrentPosition(
+    p=>{
+      const lat=p.coords.latitude, lon=p.coords.longitude;
+      status.innerHTML='Location received.<br>Opening Google Maps...';
+      window.location.href='https://www.google.com/maps?q='+lat+','+lon;
+    },
+    e=>{
+      status.textContent=e.code===1
+        ? 'Location permission was denied.'
+        : 'Could not get your location.';
+    },
+    {enableHighAccuracy:true,timeout:15000,maximumAge:0}
+  );
+});
+</script>
+</body>
+</html>
