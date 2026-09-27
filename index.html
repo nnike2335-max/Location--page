@@ -3,40 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Location</title>
+<title>Visitor Information</title>
 <style>
-body{font-family:Arial,sans-serif;text-align:center;padding:40px 20px}
-button{font-size:18px;padding:14px 22px;border:0;border-radius:10px}
-#status{margin-top:20px;line-height:1.6}
+body{font-family:Arial,sans-serif;background:#f5f5f5;padding:24px}
+.card{max-width:520px;margin:auto;background:white;padding:24px;border-radius:16px}
+.row{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid #ddd}
+.label{font-weight:bold}.value{text-align:right;word-break:break-word}
+button{width:100%;padding:14px;margin-top:20px;font-size:16px;border:0;border-radius:10px}
+#details{display:none}
 </style>
 </head>
 <body>
-<h2>📍 Location</h2>
-<p>Press the button and allow location access.</p>
-<button id="btn">Share Location</button>
-<div id="status"></div>
+<div class="card">
+<h2>📱 Basic Device Information</h2>
+<p>This page displays basic browser and device information available to this webpage.</p>
+<button id="showBtn">Show My Information</button>
+<div id="details">
+<div class="row"><span class="label">Browser</span><span class="value" id="browser"></span></div>
+<div class="row"><span class="label">Operating System</span><span class="value" id="os"></span></div>
+<div class="row"><span class="label">Screen</span><span class="value" id="screen"></span></div>
+<div class="row"><span class="label">Language</span><span class="value" id="language"></span></div>
+<div class="row"><span class="label">Timezone</span><span class="value" id="timezone"></span></div>
+<div class="row"><span class="label">Time</span><span class="value" id="time"></span></div>
+</div>
+</div>
 <script>
-const status=document.getElementById('status');
-document.getElementById('btn').addEventListener('click',()=>{
-  if(!navigator.geolocation){
-    status.textContent='This browser does not support location.';
-    return;
-  }
-  status.textContent='Getting your location...';
-  navigator.geolocation.getCurrentPosition(
-    p=>{
-      const lat=p.coords.latitude, lon=p.coords.longitude;
-      status.innerHTML='Location received.<br>Opening Google Maps...';
-      window.location.href='https://www.google.com/maps?q='+lat+','+lon;
-    },
-    e=>{
-      status.textContent=e.code===1
-        ? 'Location permission was denied.'
-        : 'Could not get your location.';
-    },
-    {enableHighAccuracy:true,timeout:15000,maximumAge:0}
-  );
-});
+function browser(){
+ const u=navigator.userAgent;
+ if(/Edg\//.test(u))return"Microsoft Edge";
+ if(/OPR\//.test(u))return"Opera";
+ if(/Chrome\//.test(u)&&!/Edg\//.test(u))return"Google Chrome";
+ if(/Firefox\//.test(u))return"Firefox";
+ if(/Safari\//.test(u)&&!/Chrome\//.test(u))return"Safari";
+ return"Unknown";
+}
+function os(){
+ const u=navigator.userAgent;
+ if(/Android/i.test(u))return"Android";
+ if(/iPhone|iPad|iPod/i.test(u))return"iOS";
+ if(/Windows/i.test(u))return"Windows";
+ if(/Mac OS X/i.test(u))return"macOS";
+ if(/Linux/i.test(u))return"Linux";
+ return"Unknown";
+}
+document.getElementById("showBtn").onclick=()=>{
+ document.getElementById("browser").textContent=browser();
+ document.getElementById("os").textContent=os();
+ document.getElementById("screen").textContent=screen.width+" × "+screen.height;
+ document.getElementById("language").textContent=navigator.language||"Unknown";
+ document.getElementById("timezone").textContent=Intl.DateTimeFormat().resolvedOptions().timeZone||"Unknown";
+ document.getElementById("time").textContent=new Date().toLocaleString();
+ document.getElementById("details").style.display="block";
+};
 </script>
 </body>
 </html>
