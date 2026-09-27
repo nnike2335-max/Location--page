@@ -4,57 +4,133 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Visitor Information</title>
+
 <style>
-body{font-family:Arial,sans-serif;background:#f5f5f5;padding:24px}
-.card{max-width:520px;margin:auto;background:white;padding:24px;border-radius:16px}
-.row{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid #ddd}
-.label{font-weight:bold}.value{text-align:right;word-break:break-word}
-button{width:100%;padding:14px;margin-top:20px;font-size:16px;border:0;border-radius:10px}
-#details{display:none}
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f5f5;
+  padding:24px;
+}
+
+.card{
+  max-width:520px;
+  margin:auto;
+  background:white;
+  padding:24px;
+  border-radius:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+h2{
+  margin-top:0;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:12px 0;
+  border-bottom:1px solid #ddd;
+}
+
+.label{
+  font-weight:bold;
+}
+
+.value{
+  text-align:right;
+  word-break:break-word;
+}
 </style>
 </head>
+
 <body>
+
 <div class="card">
+
 <h2>📱 Basic Device Information</h2>
-<p>This page displays basic browser and device information available to this webpage.</p>
-<button id="showBtn">Show My Information</button>
-<div id="details">
-<div class="row"><span class="label">Browser</span><span class="value" id="browser"></span></div>
-<div class="row"><span class="label">Operating System</span><span class="value" id="os"></span></div>
-<div class="row"><span class="label">Screen</span><span class="value" id="screen"></span></div>
-<div class="row"><span class="label">Language</span><span class="value" id="language"></span></div>
-<div class="row"><span class="label">Timezone</span><span class="value" id="timezone"></span></div>
-<div class="row"><span class="label">Time</span><span class="value" id="time"></span></div>
+
+<p>
+This page displays basic browser and device information available to this webpage.
+</p>
+
+<div class="row">
+<span class="label">Browser</span>
+<span class="value" id="browser"></span>
 </div>
+
+<div class="row">
+<span class="label">Operating System</span>
+<span class="value" id="os"></span>
 </div>
+
+<div class="row">
+<span class="label">Screen</span>
+<span class="value" id="screen"></span>
+</div>
+
+<div class="row">
+<span class="label">Language</span>
+<span class="value" id="language"></span>
+</div>
+
+<div class="row">
+<span class="label">Timezone</span>
+<span class="value" id="timezone"></span>
+</div>
+
+<div class="row">
+<span class="label">Time</span>
+<span class="value" id="time"></span>
+</div>
+
+</div>
+
 <script>
+
 function browser(){
- const u=navigator.userAgent;
- if(/Edg\//.test(u))return"Microsoft Edge";
- if(/OPR\//.test(u))return"Opera";
- if(/Chrome\//.test(u)&&!/Edg\//.test(u))return"Google Chrome";
- if(/Firefox\//.test(u))return"Firefox";
- if(/Safari\//.test(u)&&!/Chrome\//.test(u))return"Safari";
- return"Unknown";
+
+  const u=navigator.userAgent;
+
+  if(/Edg/i.test(u)) return "Microsoft Edge";
+  if(/OPR/i.test(u)) return "Opera";
+  if(/Chrome/i.test(u) && !/Edg/i.test(u)) return "Google Chrome";
+  if(/Firefox/i.test(u)) return "Firefox";
+  if(/Safari/i.test(u) && !/Chrome/i.test(u)) return "Safari";
+
+  return "Unknown";
 }
+
 function os(){
- const u=navigator.userAgent;
- if(/Android/i.test(u))return"Android";
- if(/iPhone|iPad|iPod/i.test(u))return"iOS";
- if(/Windows/i.test(u))return"Windows";
- if(/Mac OS X/i.test(u))return"macOS";
- if(/Linux/i.test(u))return"Linux";
- return"Unknown";
+
+  const u=navigator.userAgent;
+
+  if(/Android/i.test(u)) return "Android";
+  if(/iPhone|iPad|iPod/i.test(u)) return "iOS";
+  if(/Windows/i.test(u)) return "Windows";
+  if(/Mac OS X/i.test(u)) return "macOS";
+  if(/Linux/i.test(u)) return "Linux";
+
+  return "Unknown";
 }
-document.getElementById("showBtn").onclick=()=>{
- document.getElementById("browser").textContent=browser();
- document.getElementById("os").textContent=os();
- document.getElementById("screen").textContent=screen.width+" × "+screen.height;
- document.getElementById("language").textContent=navigator.language||"Unknown";
- document.getElementById("timezone").textContent=Intl.DateTimeFormat().resolvedOptions().timeZone||"Unknown";
- document.getElementById("time").textContent=new Date().toLocaleString();
- document.getElementById("details").style.display="block";
-};
+
+document.getElementById("browser").textContent=browser();
+
+document.getElementById("os").textContent=os();
+
+document.getElementById("screen").textContent=
+  screen.width+" × "+screen.height;
+
+document.getElementById("language").textContent=
+  navigator.language || "Unknown";
+
+document.getElementById("timezone").textContent=
+  Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown";
+
+document.getElementById("time").textContent=
+  new Date().toLocaleString();
+
 </script>
+
 </body>
 </html>
